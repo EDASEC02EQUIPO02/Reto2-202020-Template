@@ -38,9 +38,9 @@ operación seleccionada.
 #  Ruta a los archivos
 # ___________________________________________________
 
-
-
-
+booksfile = 'GoodReads/books-small.csv'
+tagsfile = 'GoodReads/tags.csv'
+booktagsfile = 'GoodReads/book_tags-small.csv'
 
 # ___________________________________________________
 #  Funciones para imprimir la inforamación de
@@ -53,3 +53,39 @@ operación seleccionada.
 # ___________________________________________________
 #  Menu principal
 # ___________________________________________________
+
+
+def printMenu():
+    print("Bienvenido")
+    print("1- Inicializar Catálogo")
+    print("2- Cargar información en el catálogo")
+    print("3- Consultar los libros de un año")
+    print("4- Consultar los libros de un autor")
+    print("5- Consultar los Libros por etiqueta")
+    print("0- Salir")
+
+
+while True:
+    printMenu()
+    inputs = input('Seleccione una opción para continuar\n')
+
+    if int(inputs[0]) == 1:
+        
+
+    elif int(inputs[0]) == 2:
+        print("Cargando información de los archivos ....")
+        controller.loadData(cont, booksfile, tagsfile, booktagsfile)
+        print('Libros cargados: ' + str(controller.booksSize(cont)))
+        print('Autores cargados: ' + str(controller.authorsSize(cont)))
+        print('Géneros cargados: ' + str(controller.tagsSize(cont)))
+        
+    elif int(inputs[0]) == 3:
+ 
+
+    elif int(inputs[0]) == 4:
+
+    elif int(inputs[0]) == 5:
+
+    else:
+        sys.exit(0)
+sys.exit(0)
