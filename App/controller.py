@@ -22,6 +22,7 @@
 
 import config as cf
 from App import model
+from DISClib.ADT import list as lt
 import csv
 
 
@@ -36,6 +37,13 @@ recae sobre el controlador.
 # ___________________________________________________
 #  Inicializacion del catalogo
 # ___________________________________________________
+def initCatalog():
+    """
+    Llama la funcion de inicializacion del catalogo del modelo.
+    """
+    # catalog es utilizado para interactuar con el modelo
+    catalog = model.newCatalog()
+    return catalog
 
 
 
@@ -44,3 +52,8 @@ recae sobre el controlador.
 #  Funciones para la carga de datos y almacenamiento
 #  de datos en los modelos
 # ___________________________________________________
+def loadMovies(datos):
+    lst = model.loadCSVFile(datos, model.compareRecordIds)
+    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
+    return lst
+

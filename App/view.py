@@ -19,12 +19,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  """
-
+import csv
 import sys
 import config
 from DISClib.ADT import list as lt
 from DISClib.DataStructures import listiterator as it
 from App import controller
+
+
 assert config
 
 """
@@ -38,9 +40,9 @@ operación seleccionada.
 #  Ruta a los archivos
 # ___________________________________________________
 
-booksfile = 'GoodReads/books-small.csv'
-tagsfile = 'GoodReads/tags.csv'
-booktagsfile = 'GoodReads/book_tags-small.csv'
+moviesfile = 'Data/SmallMoviesDetailsCleaned.csv'
+castingfile = 'Data/MoviesCastingRaw-small.csv'
+
 
 # ___________________________________________________
 #  Funciones para imprimir la inforamación de
@@ -58,7 +60,7 @@ booktagsfile = 'GoodReads/book_tags-small.csv'
 def printMenu():
     print("Bienvenido")
     print("1- Inicializar Catálogo")
-    print("2- Cargar información en el catálogo")
+    print("2- Cargar la información de las películas")
     print("3- Consultar los libros de un año")
     print("4- Consultar los libros de un autor")
     print("5- Consultar los Libros por etiqueta")
@@ -68,24 +70,13 @@ def printMenu():
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
-
     if int(inputs[0]) == 1:
-        
-
+        print("Inicializando Catálogo ....")
+        # cont es el controlador que se usará de acá en adelante
+        cont = controller.initCatalog()
     elif int(inputs[0]) == 2:
-        print("Cargando información de los archivos ....")
-        controller.loadData(cont, booksfile, tagsfile, booktagsfile)
-        print('Libros cargados: ' + str(controller.booksSize(cont)))
-        print('Autores cargados: ' + str(controller.authorsSize(cont)))
-        print('Géneros cargados: ' + str(controller.tagsSize(cont)))
+        controller.loadMovies(moviesfile)
         
-    elif int(inputs[0]) == 3:
- 
-
-    elif int(inputs[0]) == 4:
-
-    elif int(inputs[0]) == 5:
-
     else:
         sys.exit(0)
 sys.exit(0)
