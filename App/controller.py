@@ -52,8 +52,57 @@ def initCatalog():
 #  Funciones para la carga de datos y almacenamiento
 #  de datos en los modelos
 # ___________________________________________________
-def loadMovies(datos):
-    lst = model.loadCSVFile(datos, model.compareRecordIds)
+def loadMovies(dato1):
+    lst = model.loadCSVFile(dato1, model.compareRecordIds)
     print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
     return lst
 
+def loadCasting(dato2):
+    lst = model.loadCSVFile(dato2, model.compareRecordIds)
+    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
+    return lst
+
+def numeroPeliculas(lista1):
+    numero=model.numeroPeliculas(lista1)
+    return numero
+
+def primeraPelicula(lista1):
+    peliculaP=model.primeraPelicula(lista1)
+    return peliculaP
+
+def ultimaPelicula(lista1):
+    peliculaU=model.ultimaPelicula(lista1)
+    return peliculaU
+
+def fechaEstrenoP(lista1):
+    fechaU=model.fechaEstrenoP(lista1)
+    return fechaU
+
+def fechaEstrenoU(lista1):
+    fechaP=model.fechaEstrenoU(lista1)
+    return fechaP
+
+def promP(lista1):
+    promP=model.promP(lista1)
+    return promP
+
+def promU(lista1):
+    promU=model.promU(lista1)
+    return promU
+
+def votP(lista1):
+    votP=model.votP(lista1)
+    return votP
+
+def votU(lista1):
+    votU=model.votU(lista1)
+    return votU
+
+def idiomaP(lista1):
+    idiomaP=model.idiomaP(lista1)
+    return idiomaP
+
+def idiomaU(lista1):
+    idiomaU=model.idiomaU(lista1)
+    return idiomaU
+    

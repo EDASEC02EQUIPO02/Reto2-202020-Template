@@ -75,8 +75,41 @@ while True:
         # cont es el controlador que se usará de acá en adelante
         cont = controller.initCatalog()
     elif int(inputs[0]) == 2:
-        controller.loadMovies(moviesfile)
-        
+        lista1=controller.loadMovies(moviesfile)
+        lista2=controller.loadCasting(castingfile)
+        numero= controller.numeroPeliculas(lista1)
+        primeraPelicula= controller.primeraPelicula(lista1)
+        ultimaPelicula= controller.ultimaPelicula(lista1)
+        fechaEstrenoP=controller.fechaEstrenoP(lista1)
+        fechaEstrenoU=controller.fechaEstrenoU(lista1)
+        promP=controller.promP(lista1)
+        promU=controller.promU(lista1)
+        votP=controller.votP(lista1)
+        votU=controller.votU(lista1)
+        idiomaP=controller.idiomaP(lista1)
+        idiomaU=controller.idiomaU(lista1)
+        print("")
+
+        print("El número de películas es: " + str(numero))
+
+        print("")
+
+        print("La primera película es: " + primeraPelicula)
+        print("La fecha de estreno es: " + fechaEstrenoP)
+        print("El promedio de la votación fue: " + str(promP))
+        print("El número de votos fue: " + str(votP))
+        print("El idioma es: " + idiomaP)
+
+        print("")
+
+        print("La última película es: " + ultimaPelicula)
+        print("La fecha de estreno es: " + fechaEstrenoU)
+        print("El promedio de la votación fue: " + str(promU))
+        print("El número de votos fue: " + str(votU))
+        print("El idioma es: " + idiomaU)
+
+        print("")
+
     else:
         sys.exit(0)
 sys.exit(0)

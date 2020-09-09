@@ -76,7 +76,66 @@ def loadCSVFile (file, cmpfunction):
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return lst
 
+def numeroPeliculas(lista1):
+    lst=lt.size(lista1)
+    return lst
 
+
+def primeraPelicula(lista1):
+    dato = lt.getElement(lista1, 1)
+    peliculaP = dato['original_title']
+    return peliculaP
+
+
+def ultimaPelicula(lista1):
+    lst=lt.size(lista1)
+    dato = lt.getElement(lista1, lst)
+    peliculaU = dato['original_title']
+    return peliculaU
+
+def fechaEstrenoP(lista1):
+    dato = lt.getElement(lista1, 1)
+    fechaP = dato['release_date']
+    return fechaP
+    
+def fechaEstrenoU(lista1):
+    lst=lt.size(lista1)
+    dato = lt.getElement(lista1, lst)
+    fechaU = dato['release_date']
+    return fechaU
+
+def promP(lista1):
+    dato = lt.getElement(lista1, 1)
+    promP = dato['vote_average']
+    return promP
+
+def promU(lista1):
+    lst=lt.size(lista1)
+    dato = lt.getElement(lista1, lst)
+    promU = dato['vote_average']
+    return promU
+
+def votP(lista1):
+    dato = lt.getElement(lista1, 1)
+    votP = dato['vote_count']
+    return votP
+
+def votU(lista1):
+    lst=lt.size(lista1)
+    dato = lt.getElement(lista1, lst)
+    votU = dato['vote_count']
+    return votU
+
+def idiomaP(lista1):
+    dato = lt.getElement(lista1, 1)
+    idiomaP = dato['spoken_languages']
+    return idiomaP
+
+def idiomaU(lista1):
+    lst=lt.size(lista1)
+    dato = lt.getElement(lista1, lst)
+    idiomaU = dato['spoken_languages']
+    return idiomaU
 
 # Funciones para agregar informacion al catalogo
 
