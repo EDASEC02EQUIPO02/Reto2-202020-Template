@@ -51,11 +51,20 @@ def newCatalog():
     """
     catalog = {'peliculas': None,
                'titulo': None,
-               'vote_average': None,
+               'moviesid': None,
+               'production_companies': None,
                'vote_count': None,
                'idioma': None}
 
-    catalog['peliculas'] = lt.newList('SINGLE_LINKED', compareMoviesIds)
+    catalog['movies'] = lt.newList('SINGLE_LINKED', compareMoviesIds)
+    catalog['moviesid'] = mp.newMap(200,
+                                   maptype='PROBING',
+                                   loadfactor=0.4,
+                                   comparefunction=compareMoviesIds)
+    catalog['production_companies'] = mp.newMap(700,
+                                   maptype='PROBING',
+                                   loadfactor=0.4,
+                                   comparefunction=compareCompanyByName)
     return catalog
 
 def loadCSVFile (file, cmpfunction):
@@ -75,6 +84,92 @@ def loadCSVFile (file, cmpfunction):
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return lst
+
+
+
+def newCompany(name):
+    """
+    Crea una nueva estructura para modelar los libros de un autor
+    y su promedio de ratings
+    """
+    author = {'name': "", "movies": None,  "average_rating": 0}
+    author['name'] = name
+    author['movies'] = lt.newList('SINGLE_LINKED', compareCompanyByName)
+    return author
+
+
+#agregar las peliculas a la lista
+def addMovie(catalog, movie):
+    """
+    Esta funcion adiciona un libro a la lista de libros,
+    adicionalmente lo guarda en un Map usando como llave su Id.
+    Finalmente crea una entrada en el Map de años, para indicar que este
+    libro fue publicaco en ese año.
+    """
+    lt.addLast(catalog['movies'], movie)
+    #mp.put(catalog['moviesid'], movie['id'], movie)
+
+#Agregar las películas a una compañia 
+def addMovieCompany(catalog, companyname, movie):
+    """
+    Esta función adiciona un libro a la lista de libros publicados
+    por un autor.
+    Cuando se adiciona el libro se actualiza el promedio de dicho autor
+    """
+    authors = catalog['production_companies']
+    existauthor = mp.contains(authors, companyname)
+    if existauthor:
+        entry = mp.get(authors, companyname)
+        author = me.getValue(entry)
+    else:
+        author = newCompany(companyname)
+        mp.put(authors, companyname, author)
+    lt.addLast(author['movies'], movie)
+
+    authavg = author['average_rating']
+    bookavg = movie['vote_average']
+    if (authavg == 0.0):
+        author['average_rating'] = float(bookavg)
+    else:
+        author['average_rating'] = (authavg + float(bookavg)) / 2
+
+
+
+def getMoviesByCompany(catalog, authorname):
+    """
+    Retorna un autor con sus libros a partir del nombre del autor
+    """
+    author = mp.get(catalog['production_companies'], authorname)
+    if author:
+        return me.getValue(author)
+    return None
+
+
+
+
+#los compare de TADmap
+def compareCompanyByName(keyname, company):
+    """
+    Compara dos nombres de autor. El primero es una cadena
+    y el segundo un entry de un map
+    """
+    authentry = me.getKey(company)
+    if (keyname == authentry):
+        return 0
+    elif (keyname > authentry):
+        return 1
+    else:
+        return -1
+
+
+
+
+
+
+
+
+
+
 
 def numeroPeliculas(lista1):
     lst=lt.size(lista1)

@@ -45,6 +45,12 @@ def initCatalog():
     catalog = model.newCatalog()
     return catalog
 
+def loadData(catalog, moviefile):
+    """
+    Carga los datos de los archivos en el modelo
+    """
+    loadMovies(catalog, moviefile)
+
 
 
 
@@ -52,7 +58,46 @@ def initCatalog():
 #  Funciones para la carga de datos y almacenamiento
 #  de datos en los modelos
 # ___________________________________________________
-def loadMovies(dato1):
+def loadMovies(catalog, moviefile):
+    """
+    Carga cada una de las lineas del archivo de libros.
+    - Se agrega cada libro al catalogo de libros
+    - Por cada libro se encuentran sus autores y por cada
+      autor, se crea una lista con sus libros
+    """
+    moviefile = cf.data_dir + moviefile
+    input_file = csv.DictReader( open(moviefile, encoding="utf-8"), delimiter=";")
+    for movie in input_file:
+        model.addMovie(catalog, movie)
+        companies = movie["production_companies"].split(",")  # Se obtienen los autores
+        for company in companies:
+            model.addMovieCompany(catalog, company.strip(), movie)
+
+
+
+def getMoviesByCompany(catalog, companyname):
+    """
+    Retorna los libros de un autor
+    """
+    authorinfo = model.getMoviesByCompany(catalog, companyname)
+    return authorinfo
+
+
+
+
+
+
+def booksSize(catalog):
+    """
+    Número de libros en el catago
+    """
+    return lt.size(catalog['movies'])
+
+
+
+
+
+def loadMovies1(dato1):
     lst = model.loadCSVFile(dato1, model.compareRecordIds)
     print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
     return lst

@@ -40,7 +40,7 @@ operación seleccionada.
 #  Ruta a los archivos
 # ___________________________________________________
 
-moviesfile = 'Data/SmallMoviesDetailsCleaned.csv'
+moviesfile = 'SmallMoviesDetailsCleaned.csv'
 castingfile = 'Data/MoviesCastingRaw-small.csv'
 
 
@@ -49,7 +49,20 @@ castingfile = 'Data/MoviesCastingRaw-small.csv'
 #  respuesta.  La vista solo interactua con
 #  el controlador.
 # ___________________________________________________
-
+def printCompanyData(author):
+    """
+    Imprime los libros de un autor determinado
+    """
+    if author:
+        print('Productora encontrada: ' + author['name'])
+        print('Promedio: ' + str(author['average_rating']))
+        print('Total de películas: ' + str(lt.size(author['movies'])))
+        iterator = it.newIterator(author['movies'])
+        while it.hasNext(iterator):
+            movie = it.next(iterator)
+            print('Titulo: ' + movie['title'])
+    else:
+        print('No se encontro la productora')
 
 
 # ___________________________________________________
@@ -60,10 +73,10 @@ castingfile = 'Data/MoviesCastingRaw-small.csv'
 def printMenu():
     print("Bienvenido")
     print("1- Inicializar Catálogo")
-    print("2- Cargar la información de las películas")
-    print("3- Consultar los libros de un año")
-    print("4- Consultar los libros de un autor")
-    print("5- Consultar los Libros por etiqueta")
+    print("2- Cargar los datos con información")
+    print("3- Opcion algo...")
+    print("4- Películas de una productora")
+    print("5- ")
     print("0- Salir")
 
 
@@ -75,10 +88,14 @@ while True:
         # cont es el controlador que se usará de acá en adelante
         cont = controller.initCatalog()
     elif int(inputs[0]) == 2:
-        lista1=controller.loadMovies(moviesfile)
+        print("Cargando información de los archivos ....")
+        controller.loadData(cont, moviesfile)
+        print('Películas cargadas: ' + str(controller.booksSize(cont)))
+    elif int(inputs[0]) == 3:
+        lista1=controller.loadMovies1(moviesfile)
         lista2=controller.loadCasting(castingfile)
         numero= controller.numeroPeliculas(lista1)
-        primeraPelicula= controller.primeraPelicula(lista1)
+        primeraPelicula= controller.primeraPelicula(l<ista1)
         ultimaPelicula= controller.ultimaPelicula(lista1)
         fechaEstrenoP=controller.fechaEstrenoP(lista1)
         fechaEstrenoU=controller.fechaEstrenoU(lista1)
@@ -88,28 +105,21 @@ while True:
         votU=controller.votU(lista1)
         idiomaP=controller.idiomaP(lista1)
         idiomaU=controller.idiomaU(lista1)
-        print("")
-
-        print("El número de películas es: " + str(numero))
-
-        print("")
-
-        print("La primera película es: " + primeraPelicula)
+        print("\nEl número de películas es: " + str(numero))
+        print("\nLa primera película es: " + primeraPelicula)
         print("La fecha de estreno es: " + fechaEstrenoP)
         print("El promedio de la votación fue: " + str(promP))
         print("El número de votos fue: " + str(votP))
         print("El idioma es: " + idiomaP)
-
-        print("")
-
-        print("La última película es: " + ultimaPelicula)
+        print("\nLa última película es: " + ultimaPelicula)
         print("La fecha de estreno es: " + fechaEstrenoU)
         print("El promedio de la votación fue: " + str(promU))
         print("El número de votos fue: " + str(votU))
-        print("El idioma es: " + idiomaU)
-
-        print("")
-
+        print("El idioma es: " + idiomaU+"\n")
+    elif int(inputs[0]) == 4:
+        nombre = input("Ingrese el nombre de la productora deseada: \n" + ": ")
+        companyinfo = controller.getMoviesByCompany(cont, nombre)
+        printCompanyData(companyinfo)
     else:
         sys.exit(0)
 sys.exit(0)
