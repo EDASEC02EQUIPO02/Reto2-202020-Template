@@ -23,7 +23,9 @@
 import config as cf
 from App import model
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
 import csv
+from time import process_time 
 
 
 """
@@ -49,8 +51,10 @@ def loadData(catalog, moviefile):
     """
     Carga los datos de los archivos en el modelo
     """
+    t1 = process_time()
     loadMovies(catalog, moviefile)
-
+    t2 = process_time()
+    print("El tiempo de procesamiento es de: ", t2 - t1)
 
 
 
@@ -92,6 +96,22 @@ def booksSize(catalog):
     Número de libros en el catago
     """
     return lt.size(catalog['movies'])
+
+def companiesSize(catalog):
+    tamanio = mp.size(catalog["production_companies"])
+    return tamanio
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

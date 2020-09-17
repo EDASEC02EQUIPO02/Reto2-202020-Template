@@ -61,9 +61,9 @@ def newCatalog():
                                    maptype='PROBING',
                                    loadfactor=0.4,
                                    comparefunction=compareMoviesIds)
-    catalog['production_companies'] = mp.newMap(700,
-                                   maptype='PROBING',
-                                   loadfactor=0.4,
+    catalog['production_companies'] = mp.newMap(18051,
+                                   maptype='CHAINING',
+                                   loadfactor=2.0,
                                    comparefunction=compareCompanyByName)
     return catalog
 

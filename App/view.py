@@ -39,7 +39,7 @@ operación seleccionada.
 # ___________________________________________________
 #  Ruta a los archivos
 # ___________________________________________________
-
+moviesfilefull = 'AllMoviesDetailsCleaned.csv'
 moviesfile = 'SmallMoviesDetailsCleaned.csv'
 castingfile = 'Data/MoviesCastingRaw-small.csv'
 
@@ -89,8 +89,9 @@ while True:
         cont = controller.initCatalog()
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....")
-        controller.loadData(cont, moviesfile)
+        controller.loadData(cont, moviesfilefull)
         print('Películas cargadas: ' + str(controller.booksSize(cont)))
+        print("Directores cargados: " + str(controller.companiesSize(cont)))
     elif int(inputs[0]) == 3:
         lista1=controller.loadMovies1(moviesfile)
         lista2=controller.loadCasting(castingfile)
