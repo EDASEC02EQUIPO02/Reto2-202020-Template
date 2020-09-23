@@ -47,12 +47,14 @@ def initCatalog():
     catalog = model.newCatalog()
     return catalog
 
-def loadData(catalog, moviefile):
+def loadData(catalog, moviefile, castingfile):
     """
     Carga los datos de los archivos en el modelo
     """
     t1 = process_time()
     loadMovies(catalog, moviefile)
+    loadCasting(catalog, castingfile)
+    loadBooksTags(catalog, moviefile)
     t2 = process_time()
     print("El tiempo de procesamiento es de: ", t2 - t1)
 
@@ -76,6 +78,34 @@ def loadMovies(catalog, moviefile):
         companies = movie["production_companies"].split(",")  # Se obtienen los autores
         for company in companies:
             model.addMovieCompany(catalog, company.strip(), movie)
+        genres = movie["genres"].split("|") # Se obtienen los datos de los géneros
+        for genre in genres:
+            model.addMovieGenre(catalog, genre.strip(), movie)
+        countries = movie["production_countries"].split(",")  # Se obtienen los autores
+        for country in countries:
+            model.addMovieCountry(catalog, country.strip(), movie)
+
+def loadCasting(catalog, castingfile):
+    castingfile = cf.data_dir + castingfile
+    input_file = csv.DictReader( open(castingfile, encoding="utf-8"), delimiter=";")
+    for cast in input_file:
+        model.addTag(catalog, cast)
+    for actor in input_file:
+        model.addActor(catalog, actor)
+
+
+
+def loadBooksTags(catalog, moviefile):
+    """
+    Carga la información que asocia tags con libros.
+    Primero se localiza el tag y se le agrega la información leida.
+    Adicionalmente se le agrega una referencia al libro procesado.
+    """
+    moviefile = cf.data_dir + moviefile
+    input_file = csv.DictReader(open(moviefile, encoding="utf-8"), delimiter=";")
+    for movie in input_file:
+        model.addBookTag(catalog, movie)
+
 
 
 
@@ -87,7 +117,27 @@ def getMoviesByCompany(catalog, companyname):
     return authorinfo
 
 
+def getMoviesByGenre(catalog, genrename):
+    """
+    Retorna los libros de un autor
+    """
+    authorinfo = model.getMoviesByGenre(catalog, genrename)
+    return authorinfo
 
+def getBooksByTag(catalog, tagname):
+    """
+    Retorna los libros que han sido marcados con
+    una etiqueta
+    """
+    books = model.getBooksByTag(catalog, tagname)
+    return books
+
+def getMoviesByCountry(catalog, companyname):
+    """
+    Retorna los libros de un autor
+    """
+    authorinfo = model.getMoviesByCountry(catalog, companyname)
+    return authorinfo
 
 
 
@@ -101,6 +151,13 @@ def companiesSize(catalog):
     tamanio = mp.size(catalog["production_companies"])
     return tamanio
 
+def genresSize(catalog):
+    tamanio = mp.size(catalog["genres"])
+    return tamanio
+
+def countrySize(catalog):
+    tamanio = mp.size(catalog["pais"])
+    return tamanio
 
 
 
@@ -110,64 +167,4 @@ def companiesSize(catalog):
 
 
 
-
-
-
-
-
-
-
-def loadMovies1(dato1):
-    lst = model.loadCSVFile(dato1, model.compareRecordIds)
-    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
-    return lst
-
-def loadCasting(dato2):
-    lst = model.loadCSVFile(dato2, model.compareRecordIds)
-    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
-    return lst
-
-def numeroPeliculas(lista1):
-    numero=model.numeroPeliculas(lista1)
-    return numero
-
-def primeraPelicula(lista1):
-    peliculaP=model.primeraPelicula(lista1)
-    return peliculaP
-
-def ultimaPelicula(lista1):
-    peliculaU=model.ultimaPelicula(lista1)
-    return peliculaU
-
-def fechaEstrenoP(lista1):
-    fechaU=model.fechaEstrenoP(lista1)
-    return fechaU
-
-def fechaEstrenoU(lista1):
-    fechaP=model.fechaEstrenoU(lista1)
-    return fechaP
-
-def promP(lista1):
-    promP=model.promP(lista1)
-    return promP
-
-def promU(lista1):
-    promU=model.promU(lista1)
-    return promU
-
-def votP(lista1):
-    votP=model.votP(lista1)
-    return votP
-
-def votU(lista1):
-    votU=model.votU(lista1)
-    return votU
-
-def idiomaP(lista1):
-    idiomaP=model.idiomaP(lista1)
-    return idiomaP
-
-def idiomaU(lista1):
-    idiomaU=model.idiomaU(lista1)
-    return idiomaU
     

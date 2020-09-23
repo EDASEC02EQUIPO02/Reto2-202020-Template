@@ -41,7 +41,7 @@ operación seleccionada.
 # ___________________________________________________
 moviesfilefull = 'AllMoviesDetailsCleaned.csv'
 moviesfile = 'SmallMoviesDetailsCleaned.csv'
-castingfile = 'Data/MoviesCastingRaw-small.csv'
+castingfile = 'MoviesCastingRaw-small.csv'
 
 
 # ___________________________________________________
@@ -55,7 +55,7 @@ def printCompanyData(author):
     """
     if author:
         print('Productora encontrada: ' + author['name'])
-        print('Promedio: ' + str(author['average_rating']))
+        print('Promedio: ' + str(round(author['average_rating'], 3)))
         print('Total de películas: ' + str(lt.size(author['movies'])))
         iterator = it.newIterator(author['movies'])
         while it.hasNext(iterator):
@@ -64,19 +64,70 @@ def printCompanyData(author):
     else:
         print('No se encontro la productora')
 
+def printGenreData(author):
+    """
+    Imprime los libros de un autor determinado
+    """
+    lista = []
+    if author:
+        print('Productora encontrada: ' + author['name'])
+        print('Promedio: ' + str(author['average_count']))
+        print('Total de películas: ' + str(lt.size(author['movies'])))
+        iterator = it.newIterator(author['movies'])
+        while it.hasNext(iterator):
+            movie = it.next(iterator)
+            lista.append(movie)     
+    else:
+        print('No se encontro la productora')
 
+def printDirectorData(author):
+    """
+    Imprime los libros de un autor determinado
+    """
+    lista = []
+    if author:
+        print('Productora encontrada: ' + author['name'])
+        print('Promedio: ' + str(author['count']))
+        print('Total de películas: ' + str(author['total_movies']))
+        iterator = it.newIterator(author['movies'])
+        while it.hasNext(iterator):
+            movie = it.next(iterator)
+            lista.append(movie)     
+        print('La lista de películas del productor: ' + str(lista))
+    else:
+        print('No se encontro la productora')
+
+"ingresar print para actor"
+
+
+def printCountryData(author):
+    """
+    Imprime los libros de un autor determinado
+    """
+    lista = []
+    if author:
+        print('Productora encontrada: ' + author['name'])
+        print('Promedio: ' + str(round(author['average_rating'], 3)))
+        print('Total de películas: ' + str(lt.size(author['movies'])))
+        iterator = it.newIterator(author['movies'])
+        while it.hasNext(iterator):
+            movie = it.next(iterator)
+            print('Titulo: ' + movie['title'])
+    else:
+        print('No se encontro la productora')
 # ___________________________________________________
 #  Menu principal
 # ___________________________________________________
-
 
 def printMenu():
     print("Bienvenido")
     print("1- Inicializar Catálogo")
     print("2- Cargar los datos con información")
-    print("3- Opcion algo...")
-    print("4- Películas de una productora")
+    print("3- Películas de una productora")
+    print("4- Información de un director")
     print("5- ")
+    print("6- Géneros de una película")
+    print("7- Películas a partir de un país")
     print("0- Salir")
 
 
@@ -89,38 +140,29 @@ while True:
         cont = controller.initCatalog()
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....")
-        controller.loadData(cont, moviesfilefull)
+        controller.loadData(cont, moviesfile, castingfile)
         print('Películas cargadas: ' + str(controller.booksSize(cont)))
-        print("Directores cargados: " + str(controller.companiesSize(cont)))
+        print("Productoras cargados: " + str(controller.companiesSize(cont)))
+        print("Géneros cargados: " + str(controller.genresSize(cont)))
+        print("Paises cargados: " + str(controller.countrySize(cont)))
     elif int(inputs[0]) == 3:
-        lista1=controller.loadMovies1(moviesfile)
-        lista2=controller.loadCasting(castingfile)
-        numero= controller.numeroPeliculas(lista1)
-        primeraPelicula= controller.primeraPelicula(l<ista1)
-        ultimaPelicula= controller.ultimaPelicula(lista1)
-        fechaEstrenoP=controller.fechaEstrenoP(lista1)
-        fechaEstrenoU=controller.fechaEstrenoU(lista1)
-        promP=controller.promP(lista1)
-        promU=controller.promU(lista1)
-        votP=controller.votP(lista1)
-        votU=controller.votU(lista1)
-        idiomaP=controller.idiomaP(lista1)
-        idiomaU=controller.idiomaU(lista1)
-        print("\nEl número de películas es: " + str(numero))
-        print("\nLa primera película es: " + primeraPelicula)
-        print("La fecha de estreno es: " + fechaEstrenoP)
-        print("El promedio de la votación fue: " + str(promP))
-        print("El número de votos fue: " + str(votP))
-        print("El idioma es: " + idiomaP)
-        print("\nLa última película es: " + ultimaPelicula)
-        print("La fecha de estreno es: " + fechaEstrenoU)
-        print("El promedio de la votación fue: " + str(promU))
-        print("El número de votos fue: " + str(votU))
-        print("El idioma es: " + idiomaU+"\n")
-    elif int(inputs[0]) == 4:
         nombre = input("Ingrese el nombre de la productora deseada: \n" + ": ")
         companyinfo = controller.getMoviesByCompany(cont, nombre)
         printCompanyData(companyinfo)
+    elif int(inputs[0]) == 4:
+        name = input("Ingrese el nombre del director: \n" + ": ")
+        movies = controller.getBooksByTag(cont, name)
+        printDirectorData(movies)
+    elif int(inputs[0]) == 5:
+        b = 2
+    elif int(inputs[0]) == 6:
+        genero = input("Ingrese el género a buscar: \n" + ": ")
+        genreinfo = controller.getMoviesByGenre(cont, genero)
+        printGenreData(genreinfo)
+    elif int(inputs[0]) == 7:
+        pais = input("Ingrese el país a buscar: \n" + ": ")
+        countryinfo = controller.getMoviesByCountry(cont, pais)
+        printCountryData(countryinfo)
     else:
         sys.exit(0)
 sys.exit(0)
