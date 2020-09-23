@@ -60,23 +60,23 @@ def newCatalog():
                'pais': None}
 
     catalog['movies'] = lt.newList('SINGLE_LINKED', compareMoviesIds)
-    catalog['moviesid'] = mp.newMap(2000,
+    catalog['moviesid'] = mp.newMap(360000,
                                    maptype='PROBING',
                                    loadfactor=0.4,
                                    comparefunction=compareMapMoviesIds)
-    catalog['production_companies'] = mp.newMap(18051,
+    catalog['production_companies'] = mp.newMap(36000,
                                    maptype='CHAINING',
                                    loadfactor=2.0,
                                    comparefunction=compareCompanyByName)
-    catalog['genres'] = mp.newMap(18051,
+    catalog['genres'] = mp.newMap(180,
                                    maptype='CHAINING',
                                    loadfactor=2.0,
                                    comparefunction=compareCompanyByName)
-    catalog['director_name'] = mp.newMap(18051,
+    catalog['director_name'] = mp.newMap(300000,
                                    maptype='CHAINING',
                                    loadfactor=2.0,
                                    comparefunction=compareDirectorByName)
-    catalog['ids'] = mp.newMap(2000,
+    catalog['ids'] = mp.newMap(360000,
                                    maptype='PROBING',
                                    loadfactor=0.4,
                                    comparefunction=compareTagIds)
@@ -163,9 +163,10 @@ def addMovieActor(catalog, tag):
         if (tagbook['value']['count'] == 0.0):
             tagbook['value']['count'] = float(valor['vote_average'])
         else:
-            tagbook['value']['count'] = (tagbook['value']['count'] + float(valor['vote_average'])) / 2
+            tagbook['value']['count'] += float(valor['vote_average'])
         if movie:
             lt.addLast(tagbook['value']['movies'], valor['original_title'])
+    
 
 
 def addBookTag(catalog, tag):
@@ -185,7 +186,7 @@ def addBookTag(catalog, tag):
         if (tagbook['value']['count'] == 0.0):
             tagbook['value']['count'] = float(valor['vote_average'])
         else:
-            tagbook['value']['count'] = (tagbook['value']['count'] + float(valor['vote_average'])) / 2
+            tagbook['value']['count'] += float(valor['vote_average'])
         if movie:
             lt.addLast(tagbook['value']['movies'], valor['original_title'])
 
@@ -217,7 +218,7 @@ def addMovieCompany(catalog, companyname, movie):
     if (authavg == 0.0):
         author['average_rating'] = float(bookavg)
     else:
-        author['average_rating'] = (authavg + float(bookavg)) / 2
+        author['average_rating'] += float(bookavg)
 
 
 def addMovieGenre(catalog, genrename, movie):
@@ -241,7 +242,7 @@ def addMovieGenre(catalog, genrename, movie):
     if (authavg == 0.0):
         author['average_count'] = float(bookavg)
     else:
-        author['average_count'] = (authavg + float(bookavg)) / 2
+        author['average_count'] += float(bookavg)
 
 def addMovieCountry(catalog, countryname, movie):
     """
@@ -264,7 +265,7 @@ def addMovieCountry(catalog, countryname, movie):
     if (authavg == 0.0):
         author['average_rating'] = float(bookavg)
     else:
-        author['average_rating'] = (authavg + float(bookavg)) / 2
+        author['average_rating'] += float(bookavg)
 
 def getMoviesByCompany(catalog, authorname):
     """

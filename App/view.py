@@ -42,6 +42,7 @@ operación seleccionada.
 moviesfilefull = 'AllMoviesDetailsCleaned.csv'
 moviesfile = 'SmallMoviesDetailsCleaned.csv'
 castingfile = 'MoviesCastingRaw-small.csv'
+castingfilefull = 'AllMoviesCastingRaw.csv'
 
 
 # ___________________________________________________
@@ -55,7 +56,7 @@ def printCompanyData(author):
     """
     if author:
         print('Productora encontrada: ' + author['name'])
-        print('Promedio: ' + str(round(author['average_rating'], 3)))
+        print('Promedio: ' + str(round(author['average_rating']/lt.size(author['movies']),3)))
         print('Total de películas: ' + str(lt.size(author['movies'])))
         iterator = it.newIterator(author['movies'])
         while it.hasNext(iterator):
@@ -71,7 +72,7 @@ def printGenreData(author):
     lista = []
     if author:
         print('Productora encontrada: ' + author['name'])
-        print('Promedio: ' + str(author['average_count']))
+        print('Promedio: ' + str(round(author['average_count']/lt.size(author['movies']),3)))
         print('Total de películas: ' + str(lt.size(author['movies'])))
         iterator = it.newIterator(author['movies'])
         while it.hasNext(iterator):
@@ -87,7 +88,8 @@ def printDirectorData(author):
     lista = []
     if author:
         print('Productora encontrada: ' + author['name'])
-        print('Promedio: ' + str(author['count']))
+        print(author['count'])
+        print('Promedio: ' + str(round(author['count']/author['total_movies'], 3)))
         print('Total de películas: ' + str(author['total_movies']))
         iterator = it.newIterator(author['movies'])
         while it.hasNext(iterator):
@@ -107,7 +109,7 @@ def printCountryData(author):
     lista = []
     if author:
         print('Productora encontrada: ' + author['name'])
-        print('Promedio: ' + str(round(author['average_rating'], 3)))
+        print('Promedio: ' + str(round(author['average_rating']/lt.size(author['movies']), 3)))
         print('Total de películas: ' + str(lt.size(author['movies'])))
         iterator = it.newIterator(author['movies'])
         while it.hasNext(iterator):
@@ -143,6 +145,7 @@ while True:
         controller.loadData(cont, moviesfile, castingfile)
         print('Películas cargadas: ' + str(controller.booksSize(cont)))
         print("Productoras cargados: " + str(controller.companiesSize(cont)))
+        print("Directores cargados: " + str(controller.directorSize(cont)))
         print("Géneros cargados: " + str(controller.genresSize(cont)))
         print("Paises cargados: " + str(controller.countrySize(cont)))
     elif int(inputs[0]) == 3:

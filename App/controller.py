@@ -73,6 +73,7 @@ def loadMovies(catalog, moviefile):
     """
     moviefile = cf.data_dir + moviefile
     input_file = csv.DictReader( open(moviefile, encoding="utf-8"), delimiter=";")
+    
     for movie in input_file:
         model.addMovie(catalog, movie)
         companies = movie["production_companies"].split(",")  # Se obtienen los autores
@@ -92,7 +93,6 @@ def loadCasting(catalog, castingfile):
         model.addTag(catalog, cast)
     for actor in input_file:
         model.addActor(catalog, actor)
-
 
 
 def loadBooksTags(catalog, moviefile):
@@ -150,6 +150,11 @@ def booksSize(catalog):
 def companiesSize(catalog):
     tamanio = mp.size(catalog["production_companies"])
     return tamanio
+
+def directorSize(catalog):
+    tamanio = mp.size(catalog["director_name"])
+    return tamanio
+
 
 def genresSize(catalog):
     tamanio = mp.size(catalog["genres"])
