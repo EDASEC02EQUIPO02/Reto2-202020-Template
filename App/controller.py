@@ -82,17 +82,13 @@ def loadMovies(catalog, moviefile):
         genres = movie["genres"].split("|") # Se obtienen los datos de los géneros
         for genre in genres:
             model.addMovieGenre(catalog, genre.strip(), movie)
-        countries = movie["production_countries"].split(",")  # Se obtienen los autores
-        for country in countries:
-            model.addMovieCountry(catalog, country.strip(), movie)
 
 def loadCasting(catalog, castingfile):
     castingfile = cf.data_dir + castingfile
     input_file = csv.DictReader( open(castingfile, encoding="utf-8"), delimiter=";")
     for cast in input_file:
         model.addTag(catalog, cast)
-    for actor in input_file:
-        model.addActor(catalog, actor)
+        model.addActor(catalog, cast)
 
 
 def loadBooksTags(catalog, moviefile):
@@ -105,6 +101,10 @@ def loadBooksTags(catalog, moviefile):
     input_file = csv.DictReader(open(moviefile, encoding="utf-8"), delimiter=";")
     for movie in input_file:
         model.addBookTag(catalog, movie)
+        model.addMovieActor(catalog, movie)
+        countries = movie["production_countries"].split(",")  # Se obtienen los paises
+        for country in countries:
+            model.addMovieCountry(catalog, country.strip(), movie)
 
 
 
@@ -132,6 +132,14 @@ def getBooksByTag(catalog, tagname):
     books = model.getBooksByTag(catalog, tagname)
     return books
 
+def getMovieByActor(catalog, tagname):
+    """
+    Retorna los libros que han sido marcados con
+    una etiqueta
+    """
+    books = model.getMovieByActor(catalog, tagname)
+    return books
+
 def getMoviesByCountry(catalog, companyname):
     """
     Retorna los libros de un autor
@@ -155,6 +163,9 @@ def directorSize(catalog):
     tamanio = mp.size(catalog["director_name"])
     return tamanio
 
+def actorSize(catalog):
+    tamanio = mp.size(catalog["actores"])
+    return tamanio
 
 def genresSize(catalog):
     tamanio = mp.size(catalog["genres"])
