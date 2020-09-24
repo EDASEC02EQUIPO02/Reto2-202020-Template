@@ -129,9 +129,7 @@ def printCountryData(author):
         iterator = it.newIterator(author['movies'])
         while it.hasNext(iterator):
             movie = it.next(iterator)
-            print('Titulo: ' + movie['titulo']+ ',' + ' Fecha: ' + str(movie['fecha de lanzamiento'])+ ',' + ' Director: ' + movie['director'])
-            #print('Fecha: ' + str(movie['fecha de lanzamiento']))
-            #print('Director: ' + movie['director'])
+
     else:
         print('No se encontro el país')
 # ___________________________________________________
